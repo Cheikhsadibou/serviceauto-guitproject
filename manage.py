@@ -1,3 +1,7 @@
+# import sys
+# from django.db.backends.postgresql import base
+# sys.modules['django.db.backends.postgresql.psycopg_any'] = base
+
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os

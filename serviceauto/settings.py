@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+# import pytz
+# from django.db.backends.postgresql.utils import utc_tzinfo_factory
+# utc_tzinfo_factory.timezone = pytz.UTC
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -31,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.postgres',
     'pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,12 +77,38 @@ WSGI_APPLICATION = 'serviceauto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'serviceautodb_db',
+        'USER': 'postgres',
+        'PASSWORD': 'diamalaye5008',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'OPTIONS': {
+            'options': '-c timezone=UTC',
+            'client_encoding': 'UTF8',
+        },
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'OPTIONS': {
+#             'options': '-c timezone=UTC -c log_timezone=UTC',
+#             'connect_timeout': 10,
+#             'application_name': 'django_app'
+#         }
+#     }
+# }
 
 
 # Password validation
@@ -114,7 +143,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+DJANGO_SETTINGS_MODULE = 'serviceauto.settings'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -123,3 +152,26 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'serviceauto/static'),
 ]
+
+
+# Ajoutez à la fin de settings.py
+# from django.db.backends.postgresql import utils
+# utils.utc_tzinfo_factory = lambda: None
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'timezone_console': {
+            'level': 'WARNING',  # On Change de DEBUG à WARNING
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['timezone_console'],
+            'level': 'WARNING',  # On Change ici aussi
+            'propagate': False,
+        },
+    }
+}
