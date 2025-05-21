@@ -153,6 +153,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'serviceauto/static'),
 ]
 
+# media settings
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Ajoutez à la fin de settings.py
 # from django.db.backends.postgresql import utils
