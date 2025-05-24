@@ -28,11 +28,12 @@ SECRET_KEY = 's^28tg2vb8fkfdbz9s#oevgezu&=*x_=(%e8ygl+l4tdq7_-&@'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SILENCED_SYSTEM_CHECKS = ["ckeditor.W001"]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'cars.apps.CarsConfig',
     'django.contrib.postgres',
     'pages.apps.PagesConfig',
     'django.contrib.admin',
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'serviceauto.wsgi.application'
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
