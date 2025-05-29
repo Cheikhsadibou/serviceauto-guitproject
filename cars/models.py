@@ -112,6 +112,7 @@ class Car(models.Model):
     passengers = models.IntegerField()
     bin_no = models.CharField(max_length=100)
     milage = models.IntegerField()
+    no_of_owners = models.CharField(max_length=100)
     fuel_type = models.CharField(max_length=50)
     is_featured = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=datetime.now, blank=True)
