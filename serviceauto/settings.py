@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 SILENCED_SYSTEM_CHECKS = ["ckeditor.W001"]
+LOGIN_REDIRECT_URL = 'dashboard'
 
 # Application definition
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'cars.apps.CarsConfig',
     'django.contrib.postgres',
     'pages.apps.PagesConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +46,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'django.contrib.humanize',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Providers
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Nécessaire pour se connecter avec un username dans l'admin Django
+    'django.contrib.auth.backends.ModelBackend',
+
+    # Méthodes d'authentification spécifiques à allauth (ex: connexion par email)
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'serviceauto.urls'
@@ -181,3 +200,16 @@ LOGGING = {
         },
     }
 }
+
+
+# # Autres paramètres liés à allauth (optionnels mais recommandés)
+# ACCOUNT_EMAIL_REQUIRED = True  # L'email est obligatoire
+# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Permet de se connecter avec email ou username
+# ACCOUNT_EMAIL_VERIFICATION = 'optional'  # 'mandatory' pour forcer la vérification
+
+# messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
+SITE_ID = 1
